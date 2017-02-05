@@ -66,7 +66,8 @@ export default function(options = {}){
       }
 
       return new Promise(function(resolve, reject){
-        jwt.verify(token, secret, options, function (error, payload) {
+        const verify = (options.jwt && options.jwt.verify) || jwt.verify;
+        verify(token, secret, options, function (error, payload) {
           if (error) {
             // If the user is trying to add a token then it is better to throw and error than let the request go through with a restriction
             return reject(new errors.NotAuthenticated(error));

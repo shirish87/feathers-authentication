@@ -36,7 +36,8 @@ export default function(options = {}){
     }
 
     return new Promise(function(resolve, reject){
-      jwt.verify(token, secret, options, function (error, payload) {
+      const verify = (options.jwt && options.jwt.verify) || jwt.verify;
+      verify(token, secret, options, function (error, payload) {
         if (error) {
           // Return a 401 if the token has expired or is invalid.
           return reject(new errors.NotAuthenticated(error));

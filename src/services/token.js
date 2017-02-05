@@ -34,7 +34,8 @@ let _verifyToken = function(options = {}){
 
       const token = hook.params.token;
 
-      jwt.verify(token, secret, options, function (error, payload) {
+      const verify = (options.token && options.token.jwt && options.token.jwt.verify) || jwt.verify;
+      verify(token, secret, options, function (error, payload) {
         if (error) {
           // Return a 401 if the token has expired.
           return reject(new errors.NotAuthenticated(error));
@@ -86,7 +87,8 @@ export class Service {
     // was internally called so let's generate a new token with the user
     // id and return both the ID and the token.
     return new Promise(function(resolve){
-      jwt.sign(data, options.secret, options, token => {
+      const sign = (options.token && options.token.jwt && options.token.jwt.sign) || jwt.sign;
+      sign(data, options.secret, options, token => {
         return resolve( Object.assign(data, { token }) );
       });
     });
@@ -107,7 +109,8 @@ export class Service {
     // was internally called so let's generate a new token with the user
     // id and return both the ID and the token.
     return new Promise(function(resolve){
-      jwt.sign(data, options.secret, options, token => {
+      const sign = (options.token && options.token.jwt && options.token.jwt.sign) || jwt.sign;
+      sign(data, options.secret, options, token => {
         return resolve( Object.assign(data, { token }) );
       });
     });
