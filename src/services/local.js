@@ -131,6 +131,6 @@ export default function(options){
 
     // Register our local auth strategy and get it to use the passport callback function
     debug('registering passport-local strategy');
-    passport.use(new Strategy(options, localService.checkCredentials.bind(localService)));
+    passport.use(new Strategy(options, options.local.checkCredentials || localService.checkCredentials.bind(localService)));
   };
 }
