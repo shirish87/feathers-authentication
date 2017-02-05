@@ -27,7 +27,8 @@ export default function(options = {}){
     }
 
     return new Promise(function(resolve, reject){
-      hook.app.service(options.userEndpoint).get(id, {}).then(user => {
+      const params = hook.params.data || {};
+      hook.app.service(options.userEndpoint).get(id, params).then(user => {
         // attach the user to the hook for use in other hooks or services
         hook.params.user = user;
 
